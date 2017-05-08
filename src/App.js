@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import Websocket from 'react-websocket';
 import OrderBook from './Components/OrderBook';
 import './App.css';
 
 class App extends Component {
+
   constructor() {
     super();
     this.state = {
@@ -12,25 +14,14 @@ class App extends Component {
     }
   }
 
-  getOrders() {
-    let order_data = {
-      "symbol": "XBTUSD",
-      "bids": [
-        [711.14,10],
-        [711,2000],
-        [710.5,8382],
-        [710.38,3500],
-        [709.98,1500],
-        [709.8,2100]
-      ],
-      "asks": [
-        [711.32,10],
-        [711.34,72],
-        [711.42,3500],
-        [711.44,1500],
-        [711.45,17500]
-      ]
-    };
+  handleData(rawData) {
+    let data = JSON.parse(rawData);
+    if (!data['data']) {
+      return;
+    }
+
+    let order_data = data['data'][0];
+    console.log(order_data);
     let ask_orders = order_data['asks'].map(ask => ({
       price: ask[0],
       quantity: ask[1]
@@ -53,20 +44,17 @@ class App extends Component {
     }, 0);
 
     this.setState({
-      instrument: order_data['symbol'],
       ask_orders: ask_orders,
       bid_orders: bid_orders
-    }, function () { console.log(this.state)});
-  }
-
-  componentWillMount() {
-    this.getOrders();
+    });
   }
 
   render() {
     return (
       <div className="App">
         <h1>{this.state.instrument}</h1>
+        <Websocket url='wss://www.bitmex.com/realtime?subscribe=orderBook10:XBTUSD'
+          onMessage={this.handleData.bind(this)}/>
         <OrderBook askOrders={this.state.ask_orders} bidOrders={this.state.bid_orders} />
       </div>
     );
