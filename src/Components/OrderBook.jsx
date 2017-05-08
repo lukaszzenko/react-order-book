@@ -12,7 +12,7 @@ class OrderBook extends Component {
       let sortedAskOrdersData = this.props.askOrders.slice().sort((a, b) => a.price < b.price);
       askOrders = sortedAskOrdersData.map((askOrder, index) => {
         return (
-          <AskOrder orderData={askOrder} key={index} />
+          <AskOrder orderData={askOrder} key={index} primary={index === 0} />
         );
       });
     }
@@ -39,6 +39,8 @@ class OrderBook extends Component {
           </thead>
           <tbody>
             {askOrders}
+          </tbody>
+          <tbody>
             {bidOrders}
           </tbody>
         </table>

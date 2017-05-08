@@ -5,7 +5,7 @@ class AskOrder extends Component {
 
   render() {
     return (
-      <tr>
+      <tr className="ask">
         <td></td>
         <td></td>
         <td>{this.props.orderData.price}</td>

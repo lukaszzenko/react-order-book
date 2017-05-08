@@ -1,0 +1,38 @@
+#root {
+  width: 750px;
+  text-align: left;
+  margin: 0px auto;
+  font-size: 14px;
+}
+
+h1.instrument {
+  font-family: monospace;
+  font-size: 32px;
+}
+
+
+.OrderBook table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.OrderBook thead th {
+  font-weight: normal;
+}
+
+.OrderBook table thead:after {
+    content: "-";
+    display: block;
+    line-height: 1em;
+    color: transparent;
+}
+
+.OrderBook table tbody td {
+    border-bottom: 1.5px dashed black;
+    padding: 5px;
+}
+
+.OrderBook tr.ask:last-of-type,
+.OrderBook tr.bid:first-of-type {
+  font-weight: bold;
+}
