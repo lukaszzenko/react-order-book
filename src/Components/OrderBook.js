@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AskOrder from './AskOrder';
 import BidOrder from './BidOrder';
 
+
 class OrderBook extends Component {
 
   render() {
@@ -10,20 +11,23 @@ class OrderBook extends Component {
       return orders.reduce((total, order) => total + order.quantity, 0);
     }
 
-    function renderOrders(ComponentClass, orders) {
-      let cumulative = 0;
-      return orders.map((order, index) => {
-        cumulative += order.quantity;
-        return (<ComponentClass orderData={order} key={index} cumulative={cumulative} maxTotal={maxTotal}/>);
-      });
-    }
-
     let totalAsks = sumQuantities(this.props.askOrders);
     let totalBids = sumQuantities(this.props.bidOrders);
     let maxTotal = Math.max(totalAsks, totalBids);
 
-    let askOrders = renderOrders(AskOrder, this.props.askOrders);
-    let bidOrders = renderOrders(BidOrder, this.props.bidOrders);
+    // Deep copy and sort orders
+    let askOrders = this.props.askOrders.map(order => Object.assign({}, order)).sort((a, b) => a.price > b.price);
+    let bidOrders = this.props.bidOrders.map(order => Object.assign({}, order)).sort((a, b) => a.price < b.price);
+
+
+    function renderOrders(ComponentClass, orders) {
+      let cumulative = 0;
+      return orders.map((order, index) => {
+        order.cumulative = (cumulative += order.quantity);
+        order.maxTotal = maxTotal;
+        return (<ComponentClass key={index} {...order} />);
+      });
+    }
 
     return (
       <div className="OrderBook">
@@ -38,10 +42,10 @@ class OrderBook extends Component {
             </tr>
           </thead>
           <tbody>
-            {askOrders.reverse()}
+            {renderOrders(AskOrder, askOrders).reverse()}
           </tbody>
           <tbody>
-            {bidOrders}
+            {renderOrders(BidOrder, bidOrders)}
           </tbody>
         </table>
       </div>
