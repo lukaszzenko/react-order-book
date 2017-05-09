@@ -13,7 +13,7 @@ class OrderBook extends Component {
 
     let totalAsks = sumQuantities(this.props.askOrders);
     let totalBids = sumQuantities(this.props.bidOrders);
-    let maxTotal = Math.max(totalAsks, totalBids);
+    let maxCumulative = Math.max(totalAsks, totalBids);
 
     // Deep copy and sort orders
     let askOrders = this.props.askOrders.map(order => Object.assign({}, order)).sort((a, b) => a.price > b.price);
@@ -24,7 +24,7 @@ class OrderBook extends Component {
       let cumulative = 0;
       return orders.map((order, index) => {
         order.cumulative = (cumulative += order.quantity);
-        order.maxTotal = maxTotal;
+        order.maxCumulative = maxCumulative;
         return (<ComponentClass key={index} {...order} />);
       });
     }

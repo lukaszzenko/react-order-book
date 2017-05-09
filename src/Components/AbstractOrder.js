@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class AbstractOrder extends Component {
 
   getPercentage() {
-    let fillPercentage = (this.props.maxTotal ? this.props.cumulative / this.props.maxTotal : 0) * 100;
+    let fillPercentage = (this.props.maxCumulative ? this.props.cumulative / this.props.maxCumulative : 0) * 100;
     fillPercentage = Math.min(fillPercentage, 100); // Percentage can't be greater than 100%
     fillPercentage = Math.max(fillPercentage, 0); // Percentage can't be smaller than 0%
     return fillPercentage;
@@ -14,7 +14,7 @@ class AbstractOrder extends Component {
 AbstractOrder.propTypes = {
   quantity: PropTypes.number,
   price: PropTypes.number,
-  maxTotal: PropTypes.number,
+  maxCumulative: PropTypes.number,
   cumulative: PropTypes.number
 };
 

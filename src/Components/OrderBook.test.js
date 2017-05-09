@@ -31,13 +31,13 @@ describe('OrderBook', () => {
     expect(orderBookWrapper.find(AskOrder).first().props()).toEqual({
       price: 711.34,
       quantity: 72,
-      maxTotal: 2010,
+      maxCumulative: 2010,
       cumulative: 82
     });
     expect(orderBookWrapper.find(AskOrder).at(1).props()).toEqual({
       price: 711.32,
       quantity: 10,
-      maxTotal: 2010,
+      maxCumulative: 2010,
       cumulative: 10
     });
 
@@ -45,13 +45,13 @@ describe('OrderBook', () => {
     expect(orderBookWrapper.find(BidOrder).first().props()).toEqual({
       price: 711.14,
       quantity: 10,
-      maxTotal: 2010,
+      maxCumulative: 2010,
       cumulative: 10
     });
     expect(orderBookWrapper.find(BidOrder).at(1).props()).toEqual({
       price: 711,
       quantity: 2000,
-      maxTotal: 2010,
+      maxCumulative: 2010,
       cumulative: 2010
     });
   });
