@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AskOrder from './AskOrder';
 import BidOrder from './BidOrder';
@@ -6,24 +6,24 @@ import BidOrder from './BidOrder';
 class OrderBook extends Component {
 
   render() {
-    let askOrders, bidOrders;
+    function sumQuantities(orders) {
+      return orders.reduce((total, order) => total + order.quantity, 0);
+    }
 
-    if(this.props.askOrders) {
-      let sortedAskOrdersData = this.props.askOrders.slice().sort((a, b) => a.price < b.price);
-      askOrders = sortedAskOrdersData.map((askOrder, index) => {
-        return (
-          <AskOrder orderData={askOrder} key={index} primary={index === 0} />
-        );
+    function renderOrders(ComponentClass, orders) {
+      let cumulative = 0;
+      return orders.map((order, index) => {
+        cumulative += order.quantity;
+        return (<ComponentClass orderData={order} key={index} cumulative={cumulative} maxTotal={maxTotal}/>);
       });
     }
 
-    if(this.props.bidOrders) {
-      bidOrders = this.props.bidOrders.map((bidOrder, index) => {
-        return (
-          <BidOrder orderData={bidOrder} key={index} />
-        );
-      });
-    }
+    let totalAsks = sumQuantities(this.props.askOrders);
+    let totalBids = sumQuantities(this.props.bidOrders);
+    let maxTotal = Math.max(totalAsks, totalBids);
+
+    let askOrders = renderOrders(AskOrder, this.props.askOrders);
+    let bidOrders = renderOrders(BidOrder, this.props.bidOrders);
 
     return (
       <div className="OrderBook">
@@ -38,7 +38,7 @@ class OrderBook extends Component {
             </tr>
           </thead>
           <tbody>
-            {askOrders}
+            {askOrders.reverse()}
           </tbody>
           <tbody>
             {bidOrders}
@@ -52,6 +52,6 @@ class OrderBook extends Component {
 OrderBook.propTypes = {
   askOrders: PropTypes.array,
   bidOrders: PropTypes.array
-}
+};
 
 export default OrderBook;

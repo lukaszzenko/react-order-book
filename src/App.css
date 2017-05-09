@@ -13,6 +13,7 @@ h1.instrument {
 
 .OrderBook table {
     border-collapse: collapse;
+    table-layout: fixed;
     width: 100%;
 }
 
@@ -30,6 +31,19 @@ h1.instrument {
 .OrderBook table tbody td {
     border-bottom: 1.5px dashed black;
     padding: 5px;
+}
+
+.OrderBook table tbody td.fill-bid {
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to left, green 100%, white 0%);
+  background-size: 0%;
+}
+
+.OrderBook table tbody td.fill-ask {
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-image: linear-gradient(to left, red 100%, white 0%);
+  background-size: 0%;
 }
 
 .OrderBook tr.ask:last-of-type,
