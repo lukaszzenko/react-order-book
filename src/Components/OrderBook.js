@@ -15,9 +15,11 @@ class OrderBook extends Component {
     let totalBids = sumQuantities(this.props.bidOrders);
     let maxCumulative = Math.max(totalAsks, totalBids);
 
+    let deepCopyArrayOfObj = (arr => arr.map(order => Object.assign({}, order)));
+
     // Deep copy and sort orders
-    let askOrders = this.props.askOrders.map(order => Object.assign({}, order)).sort((a, b) => a.price > b.price);
-    let bidOrders = this.props.bidOrders.map(order => Object.assign({}, order)).sort((a, b) => a.price < b.price);
+    let askOrders = deepCopyArrayOfObj(this.props.askOrders).sort((a, b) => a.price > b.price); // ascending order
+    let bidOrders = deepCopyArrayOfObj(this.props.bidOrders).sort((a, b) => a.price < b.price); // descending order
 
 
     function renderOrders(ComponentClass, orders) {
