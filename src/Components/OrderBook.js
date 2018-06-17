@@ -18,8 +18,8 @@ class OrderBook extends Component {
     let deepCopyArrayOfObj = (arr => arr.map(order => Object.assign({}, order)));
 
     // Deep copy and sort orders
-    let askOrders = deepCopyArrayOfObj(this.props.askOrders).sort((a, b) => a.price > b.price); // ascending order
-    let bidOrders = deepCopyArrayOfObj(this.props.bidOrders).sort((a, b) => a.price < b.price); // descending order
+    let askOrders = deepCopyArrayOfObj(this.props.askOrders).sort((a, b) => a.price - b.price); // ascending order
+    let bidOrders = deepCopyArrayOfObj(this.props.bidOrders).sort((a, b) => b.price - a.price); // descending order
 
 
     function renderOrders(ComponentClass, orders) {
